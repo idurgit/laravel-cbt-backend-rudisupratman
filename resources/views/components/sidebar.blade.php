@@ -9,32 +9,36 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="nav-item dropdown">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
                 <ul class="dropdown-menu">
                     <li class='{{ Request::is('dashboard-general-dashboard') ? 'active' : '' }}'>
-                        <a class="nav-link"
-                            href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
+                        <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
                     </li>
                     <li class="{{ Request::is('dashboard-ecommerce-dashboard') ? 'active' : '' }}">
-                        <a class="nav-link"
-                            href="{{ url('dashboard-ecommerce-dashboard') }}">Ecommerce Dashboard</a>
+                        <a class="nav-link" href="{{ url('dashboard-ecommerce-dashboard') }}">Ecommerce Dashboard</a>
                     </li>
                 </ul>
             </li>
 
-            
+
             <li class="nav-item dropdown">
-                <a href="#"
-                    class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Users</span></a>
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Users</span></a>
                 <ul class="dropdown-menu">
                     <li>
-                        <a class="nav-link"
-                            href="{{ route('user.index') }}">All Users</a>
+                        <a class="nav-link" href="{{ route('user.index') }}">All Users</a>
                     </li>
-                    
+
                 </ul>
             </li>
-            
+            <li class="nav-item dropdown">
+                <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Soal</span></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a class="nav-link" href="{{ route('soal.index') }}">All Soal</a>
+                    </li>
+
+                </ul>
+            </li>
+
     </aside>
 </div>
