@@ -91,13 +91,28 @@ class UjianController extends Controller
     public function getListSoalbyKategori(Request $request)
     {
         $ujian = Ujian::where('user_id', $request->user()->id)->first();
+         //if ujian not found return empty
+         if (!$ujian) {
+            return response()->json([
+                'message' => 'Ujian tidak ditemukan',
+                'data' => [],
+            ], 200);
+        }
         $ujianSoalList = UjianSoalList::where('ujian_id', $ujian->id)->get();
         $soalIds = $ujianSoalList->pluck('soal_id');
 
         $soal = Soal::whereIn('id', $soalIds)->where('kategori', $request->kategori)->get();
+        //timer by kategori
+        $timer = $ujian->timer_angka;
+        if ($request->kategori == 'Verbal') {
+            $timer = $ujian->timer_verbal;
+        } else if ($request->kategori == 'Logika') {
+            $timer = $ujian->timer_logika;
+        }
 
         return response()->json([
             'message' => 'Berhasil mendapatkan soal',
+            'timer' => $timer,
             'data' => SoalResource::collection($soal),
         ]);
     }
@@ -135,9 +150,16 @@ class UjianController extends Controller
     {
         $kategori = $request->kategori;
         $ujian = Ujian::where('user_id', $request->user()->id)->first();
+        //if ujian not found return empty
+        if (!$ujian) {
+            return response()->json([
+                'message' => 'Ujian tidak ditemukan',
+                'data' => [],
+            ], 200);
+        }
         $ujianSoalList = UjianSoalList::where('ujian_id', $ujian->id)->get();
 
-        $ujianSoalList = $ujianSoalList->filter(function($value, $key) use($kategori) {
+        $ujianSoalList = $ujianSoalList->filter(function ($value, $key) use ($kategori) {
             return $value->soal->kategori == $kategori;
         });
 
@@ -155,7 +177,7 @@ class UjianController extends Controller
         $ujian->update([
             $kategori_field => $nilai
         ]);
-         
+
         return response()->json([
             'message' => 'Berhasil mendapatkan nilai',
             'nilai' => $nilai,
