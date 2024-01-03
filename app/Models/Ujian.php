@@ -15,5 +15,11 @@ class Ujian extends Model
         'nilai_verbal',
         'nilai_logika',
         'hasil',
+        'status_angka',
+        'status_verbal',
+        'status_logika',
+        'timer_angka',
+        'timer_verbal',
+        'timer_logika',
     ];
 }
