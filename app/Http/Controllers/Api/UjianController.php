@@ -91,8 +91,8 @@ class UjianController extends Controller
     public function getListSoalbyKategori(Request $request)
     {
         $ujian = Ujian::where('user_id', $request->user()->id)->first();
-         //if ujian not found return empty
-         if (!$ujian) {
+        //if ujian not found return empty
+        if (!$ujian) {
             return response()->json([
                 'message' => 'Ujian tidak ditemukan',
                 'data' => [],
@@ -163,24 +163,34 @@ class UjianController extends Controller
             return $value->soal->kategori == $kategori;
         });
 
+        //hitung nilai
         $totalBenar = $ujianSoalList->where('kebenaran', true)->count();
         $totalSoal = $ujianSoalList->count();
         $nilai = ($totalBenar / $totalSoal) * 100;
 
         $kategori_field = 'nilai verbal';
+        $status_field = 'status_verbal';
+        $timer_field = 'timer_verbal';
         if ($kategori == 'Numeric') {
             $kategori_field = 'nilai_angka';
+            $status_field = 'status_angka';
+            $timer_field = 'timer_angka';
         } else if ($kategori == 'Logika') {
             $kategori_field = 'nilai_logika';
+            $status_field = 'status_logika';
+            $timer_field = 'timer_logika';
         }
 
+        //update nilai, status, timer
         $ujian->update([
-            $kategori_field => $nilai
+            $kategori_field => $nilai,
+            $status_field => 'done',
+            $timer_field => 0,
         ]);
 
         return response()->json([
             'message' => 'Berhasil mendapatkan nilai',
             'nilai' => $nilai,
-        ]);
+        ], 200);
     }
 }
